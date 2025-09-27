@@ -180,50 +180,53 @@
         </div>
     </div>
 
+    <div id="loadingModal" class="hidden fixed inset-0 bg-gray-900 bg-opacity-70 z-50 flex justify-center items-center p-4">
+        <div class="flex flex-col items-center">
+            <svg class="animate-spin h-12 w-12 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+            <p class="text-white text-xl font-semibold mt-4">Sedang mengirim jawaban...</p>
+        </div>
+    </div>
+
     <script>
         let timeLeft = 30 * 60; // 30 menit
         let timerInterval;
         // Variabel untuk menyimpan data peserta dengan aman
         let participantName, participantSchool, participantClass;
 
-        const questions = [
-            {
-                section: 'Sesi Pembuka & Fondasi Digital (Pertemuan 1)',
-                items: [
-                    { q: "Seorang guru ingin mengajarkan proses terjadinya hujan kepada siswa. Ia membagi penjelasan menjadi tiga tahap: evaporasi, kondensasi, dan presipitasi. Pendekatan yang digunakan guru tersebut adalah contoh dari pilar Berpikir Komputasional, yaitu...", o: ['Algoritma', 'Dekomposisi', 'Abstraksi'], a: 'B' },
-                    { q: "Manakah dari teknologi berikut yang merupakan contoh penerapan Kecerdasan Artifisial (AI) dalam kehidupan sehari-hari?", o: ['Mesin fotokopi yang menyalin dokumen.', 'Aplikasi musik yang membuat playlist lagu sesuai selera Anda secara otomatis.', 'Proyektor yang menampilkan gambar dari laptop ke layar.'], a: 'B' }
-                ]
-            },
-            {
-                section: 'Blok 1: Koding dengan Scratch (Pertemuan 2-4)',
-                items: [
-                    { q: "Area utama tempat karakter (Sprite) bergerak dan berinteraksi dalam tampilan proyek Scratch disebut...", o: ['Backdrop', 'Script Area', 'Stage (Panggung)'], a: 'C' },
-                    { q: "Untuk membuat sebuah karakter kucing berjalan ke kanan sejauh 10 langkah di Scratch, blok perintah manakah yang paling tepat digunakan?", o: ['turn right (15) degrees', 'move (10) steps', 'go to x:(10) y:(0)'], a: 'B' },
-                    { q: 'Jika Anda ingin sebuah karakter mengucapkan "Halo!" selama 2 detik, blok perintah manakah yang akan Anda pilih dari kategori Looks?', o: ['say "Halo!" for (2) secs', 'think "Halo!" for (2) secs', 'switch costume to [costume2]'], a: 'A' },
-                    { q: "Perintah yang berfungsi sebagai pemicu untuk memulai seluruh rangkaian program saat bendera hijau diklik adalah...", o: ['when this sprite clicked', 'when backdrop switches to [backdrop1]', 'when green flag clicked'], a: 'C' },
-                    { q: "Untuk membuat sebuah aksi (misalnya, musik) berulang terus-menerus tanpa henti, blok kontrol yang paling efisien untuk digunakan adalah...", o: ['repeat (10)', 'forever', 'wait (1) secs'], a: 'B' },
-                    { q: "Blok perintah if <...> then ... digunakan untuk...", o: ['Menjalankan sebuah aksi hanya jika sebuah kondisi tertentu terpenuhi.', 'Mengulang sebuah aksi sebanyak jumlah yang ditentukan.', 'Memberhentikan semua skrip yang sedang berjalan.'], a: 'A' },
-                    { q: "Seorang guru membuat kuis di Scratch. Setiap kali siswa menjawab benar, skornya bertambah 5. Untuk menyimpan nilai skor yang bisa berubah-ubah ini, fitur yang paling tepat digunakan adalah...", o: ['Broadcast', 'Variable', 'Custom Block'], a: 'B' },
-                    { q: "Blok dari kategori manakah yang digunakan untuk mendeteksi apakah mouse sedang ditekan atau sebuah karakter menyentuh karakter lain?", o: ['Motion', 'Sensing', 'Sound'], a: 'B' },
-                    { q: "Dalam merancang sebuah kuis pilihan ganda di Scratch, logika apa yang paling mendasar untuk memeriksa jawaban siswa?", o: ['Jika jawaban siswa = kunci jawaban, maka skor bertambah.', 'Selalu tambahkan skor setiap kali siswa menjawab.', 'Ulangi pertanyaan sebanyak 10 kali.'], a: 'A' }
-                ]
-            },
-            {
-                section: 'Blok 2: Pemanfaatan AI (Pertemuan 5-7)',
-                items: [
-                    { q: "Istilah untuk seni dan ilmu merancang perintah (input) yang efektif agar AI dapat menghasilkan output yang paling sesuai dan akurat disebut...", o: ['Algoritma AI', 'Machine Learning', 'Prompt Engineering'], a: 'C' },
-                    { q: 'Perhatikan dua perintah berikut yang diberikan kepada AI:\n1. "Buat soal."\n2. "Buatkan 5 soal pilihan ganda untuk siswa kelas 4 SD tentang siklus air, lengkap dengan kunci jawaban."\nMengapa perintah kedua lebih baik daripada yang pertama?', o: ['Karena lebih pendek dan ringkas.', 'Karena menggunakan bahasa yang lebih formal.', 'Karena memberikan konteks, format, dan batasan yang jelas.'], a: 'C' },
-                    { q: "Manakah komponen yang kurang penting saat menyusun sebuah prompt yang baik?", o: ['Konteks (Untuk siapa? Tentang apa?)', 'Tugas (AI harus melakukan apa?)', 'Warna latar belakang aplikasi AI.'], a: 'C' },
-                    { q: "Anda ingin AI membantu membuat ide untuk proyek Scratch. Prompt manakah yang paling efektif?", o: ['"Beri saya ide."', '"Ide Scratch."', '"Berikan 3 ide game edukasi sederhana di Scratch untuk pelajaran IPA tentang rantai makanan."'], a: 'C' },
-                    { q: "Fitur AI pada Canva yang dapat membantu guru menulis atau merangkum teks secara otomatis adalah...", o: ['Magic Eraser', 'Magic Write', 'Animate'], a: 'B' },
-                    { q: "Seorang guru ingin membuat poster tentang pahlawan nasional untuk kelasnya. Fitur Canva AI yang paling tepat untuk membuat gambar ilustrasi pahlawan dari deskripsi teks adalah...", o: ['Text to Image', 'Magic Edit', 'Brand Kit'], a: 'A' },
-                    { q: "Microsoft Copilot atau AI sejenis dapat membantu guru dalam hal administrasi, terutama untuk...", o: ['Memperbaiki proyektor yang rusak.', 'Membuat draf RPP dan rubrik penilaian secara cepat.', 'Menginstal aplikasi di laptop.'], a: 'B' },
-                    { q: 'Seorang guru memberikan perintah kepada Copilot: "Buatkan saya rubrik penilaian untuk proyek presentasi siswa kelas 5." Untuk mendapatkan hasil yang lebih baik, informasi apa yang sebaiknya ditambahkan?', o: ['Nama sekolah dan kepala sekolah.', 'Kriteria penilaian yang diinginkan (misal: isi, cara penyampaian, visual).', 'Jadwal pelajaran guru tersebut.'], a: 'B' },
-                    { q: "Penggunaan utama AI seperti Copilot dalam perencanaan pembelajaran adalah sebagai...", o: ['Pengganti mutlak peran guru dalam mengajar.', 'Alat untuk mencetak dokumen saja.', 'Asisten untuk mempercepat proses ideasi dan penyusunan draf.'], a: 'C' }
-                ]
-            }
-        ];
-        
+        const questions = [{
+            section: 'Sesi Pembuka & Fondasi Digital (Pertemuan 1)',
+            items: [{q: "Seorang guru ingin mengajarkan proses terjadinya hujan kepada siswa. Ia membagi penjelasan menjadi tiga tahap: evaporasi, kondensasi, dan presipitasi. Pendekatan yang digunakan guru tersebut adalah contoh dari pilar Berpikir Komputasional, yaitu...",o: ['Algoritma', 'Dekomposisi', 'Abstraksi'],a: 'B'
+            }, {q: "Manakah dari teknologi berikut yang merupakan contoh penerapan Kecerdasan Artifisial (AI) dalam kehidupan sehari-hari?",o: ['Mesin fotokopi yang menyalin dokumen.', 'Aplikasi musik yang membuat playlist lagu sesuai selera Anda secara otomatis.', 'Proyektor yang menampilkan gambar dari laptop ke layar.'],a: 'B'
+            }]
+        }, {
+            section: 'Blok 1: Koding dengan Scratch (Pertemuan 2-4)',
+            items: [{q: "Area utama tempat karakter (Sprite) bergerak dan berinteraksi dalam tampilan proyek Scratch disebut...",o: ['Backdrop', 'Script Area', 'Stage (Panggung)'],a: 'C'
+            }, {q: "Untuk membuat sebuah karakter kucing berjalan ke kanan sejauh 10 langkah di Scratch, blok perintah manakah yang paling tepat digunakan?",o: ['turn right (15) degrees', 'move (10) steps', 'go to x:(10) y:(0)'],a: 'B'
+            }, {q: 'Jika Anda ingin sebuah karakter mengucapkan "Halo!" selama 2 detik, blok perintah manakah yang akan Anda pilih dari kategori Looks?',o: ['say "Halo!" for (2) secs', 'think "Halo!" for (2) secs', 'switch costume to [costume2]'],a: 'A'
+            }, {q: "Perintah yang berfungsi sebagai pemicu untuk memulai seluruh rangkaian program saat bendera hijau diklik adalah...",o: ['when this sprite clicked', 'when backdrop switches to [backdrop1]', 'when green flag clicked'],a: 'C'
+            }, {q: "Untuk membuat sebuah aksi (misalnya, musik) berulang terus-menerus tanpa henti, blok kontrol yang paling efisien untuk digunakan adalah...",o: ['repeat (10)', 'forever', 'wait (1) secs'],a: 'B'
+            }, {q: "Blok perintah if <...> then ... digunakan untuk...",o: ['Menjalankan sebuah aksi hanya jika sebuah kondisi tertentu terpenuhi.', 'Mengulang sebuah aksi sebanyak jumlah yang ditentukan.', 'Memberhentikan semua skrip yang sedang berjalan.'],a: 'A'
+            }, {q: "Seorang guru membuat kuis di Scratch. Setiap kali siswa menjawab benar, skornya bertambah 5. Untuk menyimpan nilai skor yang bisa berubah-ubah ini, fitur yang paling tepat digunakan adalah...",o: ['Broadcast', 'Variable', 'Custom Block'],a: 'B'
+            }, {q: "Blok dari kategori manakah yang digunakan untuk mendeteksi apakah mouse sedang ditekan atau sebuah karakter menyentuh karakter lain?",o: ['Motion', 'Sensing', 'Sound'],a: 'B'
+            }, {q: "Dalam merancang sebuah kuis pilihan ganda di Scratch, logika apa yang paling mendasar untuk memeriksa jawaban siswa?",o: ['Jika jawaban siswa = kunci jawaban, maka skor bertambah.', 'Selalu tambahkan skor setiap kali siswa menjawab.', 'Ulangi pertanyaan sebanyak 10 kali.'],a: 'A'
+            }]
+        }, {
+            section: 'Blok 2: Pemanfaatan AI (Pertemuan 5-7)',
+            items: [{q: "Istilah untuk seni dan ilmu merancang perintah (input) yang efektif agar AI dapat menghasilkan output yang paling sesuai dan akurat disebut...",o: ['Algoritma AI', 'Machine Learning', 'Prompt Engineering'],a: 'C'
+            }, {q: 'Perhatikan dua perintah berikut yang diberikan kepada AI:\n1. "Buat soal."\n2. "Buatkan 5 soal pilihan ganda untuk siswa kelas 4 SD tentang siklus air, lengkap dengan kunci jawaban."\nMengapa perintah kedua lebih baik daripada yang pertama?',o: ['Karena lebih pendek dan ringkas.', 'Karena menggunakan bahasa yang lebih formal.', 'Karena memberikan konteks, format, dan batasan yang jelas.'],a: 'C'
+            }, {q: "Manakah komponen yang kurang penting saat menyusun sebuah prompt yang baik?",o: ['Konteks (Untuk siapa? Tentang apa?)', 'Tugas (AI harus melakukan apa?)', 'Warna latar belakang aplikasi AI.'],a: 'C'
+            }, {q: "Anda ingin AI membantu membuat ide untuk proyek Scratch. Prompt manakah yang paling efektif?",o: ['"Beri saya ide."', '"Ide Scratch."', '"Berikan 3 ide game edukasi sederhana di Scratch untuk pelajaran IPA tentang rantai makanan."'],a: 'C'
+            }, {q: "Fitur AI pada Canva yang dapat membantu guru menulis atau merangkum teks secara otomatis adalah...",o: ['Magic Eraser', 'Magic Write', 'Animate'],a: 'B'
+            }, {q: "Seorang guru ingin membuat poster tentang pahlawan nasional untuk kelasnya. Fitur Canva AI yang paling tepat untuk membuat gambar ilustrasi pahlawan dari deskripsi teks adalah...",o: ['Text to Image', 'Magic Edit', 'Brand Kit'],a: 'A'
+            }, {q: "Microsoft Copilot atau AI sejenis dapat membantu guru dalam hal administrasi, terutama untuk...",o: ['Memperbaiki proyektor yang rusak.', 'Membuat draf RPP dan rubrik penilaian secara cepat.', 'Menginstal aplikasi di laptop.'],a: 'B'
+            }, {q: 'Seorang guru memberikan perintah kepada Copilot: "Buatkan saya rubrik penilaian untuk proyek presentasi siswa kelas 5." Untuk mendapatkan hasil yang lebih baik, informasi apa yang sebaiknya ditambahkan?',o: ['Nama sekolah dan kepala sekolah.', 'Kriteria penilaian yang diinginkan (misal: isi, cara penyampaian, visual).', 'Jadwal pelajaran guru tersebut.'],a: 'B'
+            }, {q: "Penggunaan utama AI seperti Copilot dalam perencanaan pembelajaran adalah sebagai...",o: ['Pengganti mutlak peran guru dalam mengajar.', 'Alat untuk mencetak dokumen saja.', 'Asisten untuk mempercepat proses ideasi dan penyusunan draf.'],a: 'C'
+            }]
+        }];
+
         function renderQuestions() {
             const container = document.getElementById('testQuestions');
             let questionNumber = 0;
@@ -280,21 +283,20 @@
             const kelas = document.getElementById('kelasToT').value.trim();
 
             if (!nama || !sekolah || !kelas) {
-                alert('Mohon lengkapi semua data terlebih dahulu!');
+                // MENGGANTI ALERT DENGAN MODAL
+                showModal('warning', 'Mohon lengkapi semua data terlebih dahulu sebelum memulai tes!');
                 return;
             }
 
-            // === PERBAIKAN 1: Simpan data ke variabel global ===
             participantName = nama;
             participantSchool = sekolah;
             participantClass = kelas;
-            // ===================================================
 
             document.getElementById('identityForm').classList.add('hidden');
             document.getElementById('testInfo').classList.remove('hidden');
             document.getElementById('testQuestions').classList.remove('hidden');
             document.getElementById('finishButtonContainer').classList.remove('hidden');
-            
+
             renderQuestions();
             startTimer();
         }
@@ -310,8 +312,10 @@
 
                 if (timeLeft <= 0) {
                     clearInterval(timerInterval);
-                    alert("Waktu habis! Jawaban Anda akan dikirim secara otomatis.");
-                    finishTest();
+                    // MENGGANTI ALERT DENGAN MODAL
+                    showModal('warning', 'Waktu habis! Jawaban Anda akan dikirim secara otomatis.', () => {
+                        finishTest(); // Menjalankan finishTest setelah modal ditutup
+                    });
                 }
             }, 1000);
         }
@@ -341,7 +345,7 @@
                     if (!selectedAnswer) {
                         allAnswered = false;
                         questionContainer.classList.add('question-unanswered');
-                        
+
                         if (!firstUnansweredElement) {
                             firstUnansweredElement = questionContainer;
                         }
@@ -350,21 +354,29 @@
                         radioButtons.forEach(radio => {
                             radio.addEventListener('change', () => {
                                 questionContainer.classList.remove('question-unanswered');
-                            }, { once: true });
+                            }, {
+                                once: true
+                            });
                         });
                     }
                 });
             });
 
             if (!allAnswered) {
-                alert('Harap jawab semua pertanyaan sebelum menyelesaikan tes. Pertanyaan yang belum dijawab ditandai dengan warna merah.');
+                // MENGGANTI ALERT DENGAN MODAL
+                showModal('warning', 'Harap jawab semua pertanyaan sebelum menyelesaikan tes. Pertanyaan yang belum dijawab ditandai dengan warna merah.');
                 if (firstUnansweredElement) {
-                    firstUnansweredElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    firstUnansweredElement.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'center'
+                    });
                 }
                 return;
             }
             // --- VALIDATION LOGIC END ---
 
+            showLoading();
+            
             clearInterval(timerInterval);
 
             let correct = 0;
@@ -381,25 +393,27 @@
                     }
                 });
             });
-            
+
             const totalQuestions = questionCounterResult;
             const incorrect = totalQuestions - correct;
-            
-            showResult(correct, incorrect, totalQuestions);
 
-            // === PERBAIKAN 2: Gunakan data dari variabel global ===
             const dataToSend = {
                 nama: participantName,
                 sekolah: participantSchool,
                 kelas: participantClass,
                 benar: correct,
                 salah: incorrect,
-                waktuSelesai: new Date().toLocaleString('id-ID', { timeZone: 'Asia/Jakarta' }),
+                waktuSelesai: new Date().toLocaleString('id-ID', {
+                    timeZone: 'Asia/Jakarta'
+                }),
                 ...answers
             };
-            // =====================================================
-            
-            sendToGoogleSheets(dataToSend);
+
+            sendToGoogleSheets(dataToSend, {
+                correct,
+                incorrect,
+                total: totalQuestions
+            });
         }
 
         function showResult(benar, salah, total) {
@@ -428,8 +442,22 @@
             `;
         }
 
-        // Fungsi untuk menampilkan modal
-        function showModal(type, message) {
+        // ===============================================
+        // === KUMPULAN FUNGSI MODAL (LOADING & NOTIF) ===
+        // ===============================================
+
+        function showLoading() {
+            document.getElementById('loadingModal').classList.remove('hidden');
+        }
+
+        function hideLoading() {
+            document.getElementById('loadingModal').classList.add('hidden');
+        }
+
+        // Deklarasikan variabel untuk menyimpan callback
+        let onModalCloseCallback = null;
+
+        function showModal(type, message, callback) {
             const modal = document.getElementById('notificationModal');
             const modalBox = document.getElementById('modalBox');
             const modalHeader = document.getElementById('modalHeader');
@@ -438,11 +466,14 @@
             const modalCloseButton = document.getElementById('modalCloseButton');
             const modalIcon = document.getElementById('modalIcon');
 
+            // Simpan callback jika ada
+            onModalCloseCallback = callback || null;
+
             // Reset style setiap kali modal dipanggil
             modalHeader.className = 'p-5 border-b-2 rounded-t-2xl flex justify-between items-center';
             modalCloseButton.className = 'px-6 py-2.5 text-white font-semibold rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2 transition-transform transform hover:scale-105';
             modalTitle.className = 'text-2xl font-bold';
-
+            
             modalMessage.textContent = message;
 
             if (type === 'success') {
@@ -451,70 +482,72 @@
                 modalTitle.classList.add('text-green-800');
                 modalCloseButton.classList.add('bg-green-600', 'hover:bg-green-700', 'focus:ring-green-500');
                 modalIcon.innerHTML = `<svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>`;
-            } else { // 'error'
+            } else if (type === 'error') {
                 modalTitle.textContent = 'Gagal!';
                 modalHeader.classList.add('bg-red-100', 'border-red-300');
                 modalTitle.classList.add('text-red-800');
                 modalCloseButton.classList.add('bg-red-600', 'hover:bg-red-700', 'focus:ring-red-500');
                 modalIcon.innerHTML = `<svg class="w-8 h-8 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>`;
+            } else { // 'warning'
+                modalTitle.textContent = 'Perhatian!';
+                modalHeader.classList.add('bg-yellow-100', 'border-yellow-300');
+                modalTitle.classList.add('text-yellow-800');
+                modalCloseButton.classList.add('bg-yellow-500', 'hover:bg-yellow-600', 'focus:ring-yellow-400');
+                modalIcon.innerHTML = `<svg class="w-8 h-8 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>`;
             }
 
             modal.classList.remove('hidden');
-            // Memicu animasi fade-in dan scale-up
             setTimeout(() => {
                 modal.classList.add('opacity-100');
                 modalBox.classList.remove('scale-95', 'opacity-0');
             }, 10);
         }
 
-        // Fungsi untuk menyembunyikan modal
         function hideModal() {
             const modal = document.getElementById('notificationModal');
             const modalBox = document.getElementById('modalBox');
-            
-            // Memicu animasi fade-out dan scale-down
+
             modalBox.classList.add('scale-95', 'opacity-0');
             modal.classList.remove('opacity-100');
-            
+
             setTimeout(() => {
                 modal.classList.add('hidden');
-            }, 300); // Durasi harus sama dengan transisi di CSS
+                // Jalankan callback jika ada setelah modal tertutup
+                if (typeof onModalCloseCallback === 'function') {
+                    onModalCloseCallback();
+                    onModalCloseCallback = null; // Reset callback
+                }
+            }, 300);
         }
 
-        function sendToGoogleSheets(data) {
-            const scriptURL = 'https://script.google.com/macros/s/AKfycbxLV5zxRy-0HvIwulxKZ3RXYbPpg_HXncUMCH_jubAcQOBqlCaP-iYyWHFh3nZL_pxD-A/exec'; // Pastikan URL ini yang terbaru
+        function sendToGoogleSheets(data, resultData) {
+            const scriptURL = 'https://script.google.com/macros/s/AKfycbxLV5zxRy-0HvIwulxKZ3RXYbPpg_HXncUMCH_jubAcQOBqlCaP-iYyWHFh3nZL_pxD-A/exec';
             const finishButton = document.querySelector('#finishButtonContainer button');
 
-            // Nonaktifkan tombol saat mengirim
-            finishButton.disabled = true;
-            finishButton.textContent = 'Mengirim Jawaban...';
-
             const formData = new FormData();
-
             for (const key in data) {
                 formData.append(key, data[key]);
             }
             formData.append('sheetName', 'Pre-test_result');
 
-            fetch(scriptURL, { method: 'POST', body: formData })
+            fetch(scriptURL, {
+                    method: 'POST',
+                    body: formData
+                })
                 .then(response => {
-                    // Tampilkan MODAL sukses jika berhasil
+                    hideLoading(); 
+                    showResult(resultData.correct, resultData.incorrect, resultData.total);
                     showModal('success', 'Jawaban Anda telah berhasil direkam. Terima kasih!');
                     console.log('Success!', response);
-                    // Kembali aktifkan tombol
-                    finishButton.textContent = 'Selesai & Kirim Jawaban';
-                    finishButton.disabled = false;
                 })
                 .catch(error => {
-                    // Tampilkan MODAL error jika gagal
+                    hideLoading();
                     showModal('error', 'Gagal menyimpan data. Silakan periksa koneksi internet Anda atau hubungi fasilitator.');
-                    console.error('Error!', error.message);
-                    // Kembali aktifkan tombol
-                    finishButton.textContent = 'Selesai & Kirim Jawaban';
+                    
                     finishButton.disabled = false;
+                    console.error('Error!', error.message);
                 });
         }
-
     </script>
 </body>
 </html>
