@@ -393,7 +393,13 @@
         }
 
         function sendToGoogleSheets(data) {
-            const scriptURL = 'https://script.google.com/macros/s/AKfycbyJIY6mmWcR6R-ZroUL6DOW13gxdseeAkWvvmROf9w6IOfpLBSfPRcCAAib6B3mH2sZfA/exec';
+            const scriptURL = 'https://script.google.com/macros/s/AKfycbxLV5zxRy-0HvIwulxKZ3RXYbPpg_HXncUMCH_jubAcQOBqlCaP-iYyWHFh3nZL_pxD-A/exec'; // Pastikan URL ini yang terbaru
+            const finishButton = document.querySelector('#finishButtonContainer button');
+
+            // Nonaktifkan tombol saat mengirim
+            finishButton.disabled = true;
+            finishButton.textContent = 'Mengirim Jawaban...';
+
             const formData = new FormData();
 
             for (const key in data) {
@@ -402,10 +408,22 @@
             formData.append('sheetName', 'Pre-test_result');
 
             fetch(scriptURL, { method: 'POST', body: formData })
-                .then(response => console.log('Success!', response))
+                .then(response => {
+                    // === INI BAGIAN BARUNYA ===
+                    // Tampilkan pop-up sukses jika berhasil
+                    alert('Sukses! Jawaban Anda telah berhasil disimpan.');
+                    console.log('Success!', response);
+                    // Kembali aktifkan tombol
+                    finishButton.textContent = 'Selesai & Kirim Jawaban';
+                    finishButton.disabled = false;
+                })
                 .catch(error => {
+                    // Tampilkan pop-up error jika gagal
+                    alert('Gagal menyimpan data. Silakan coba lagi atau hubungi fasilitator.');
                     console.error('Error!', error.message);
-                    alert('Terjadi kesalahan saat menyimpan data. Silakan hubungi fasilitator.');
+                    // Kembali aktifkan tombol
+                    finishButton.textContent = 'Selesai & Kirim Jawaban';
+                    finishButton.disabled = false;
                 });
         }
 
