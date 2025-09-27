@@ -90,8 +90,25 @@
                     <input type="text" id="namaSekolah" class="w-full px-5 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-300" placeholder="Masukkan nama sekolah Anda">
                 </div>
                 <div>
-                    <label for="kelasToT" class="block text-sm font-semibold text-blue-900 mb-2">Kelas ToT</for=>
-                    <input type="text" id="kelasToT" class="w-full px-5 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-300" placeholder="Masukkan kelas ToT Anda (Contoh: Kelas A)">
+                    <label for="kelasToT" class="block text-sm font-semibold text-blue-900 mb-2">Kelas ToT</label>
+                    <select id="kelasToT" class="w-full px-5 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-300 bg-white">
+                        <option value="" disabled selected>Pilih Kelas ToT Anda</option>
+                        <option value="Kelas A">Kelas A</option>
+                        <option value="Kelas B">Kelas B</option>
+                        <option value="Kelas C">Kelas C</option>
+                        <option value="Kelas D">Kelas D</option>
+                        <option value="Kelas E">Kelas E</option>
+                        <option value="Kelas F">Kelas F</option>
+                        <option value="Kelas G">Kelas G</option>
+                        <option value="Kelas H">Kelas H</option>
+                        <option value="Kelas I">Kelas I</option>
+                        <option value="Kelas J">Kelas J</option>
+                        <option value="Kelas K">Kelas K</option>
+                        <option value="Kelas L">Kelas L</option>
+                        <option value="Kelas M">Kelas M</option>
+                        <option value="Kelas N">Kelas N</option>
+                        <option value="Kelas O">Kelas O</option>
+                    </select>
                 </div>
                 <button onclick="startTest()" class="w-full primary-gradient hover:shadow-xl text-white font-bold py-4 px-8 rounded-xl transition-all duration-300 transform hover:scale-105 mt-8 text-lg">
                     Siap Mulai Test
@@ -140,6 +157,25 @@
             </div>
             <div id="resultSummary" class="bg-blue-50 p-8 rounded-2xl border border-blue-200">
                 <!-- Hasil akan ditampilkan di sini -->
+            </div>
+        </div>
+    </div>
+    <div id="notificationModal" class="hidden fixed inset-0 bg-gray-900 bg-opacity-70 z-50 flex justify-center items-center p-4 transition-opacity duration-300">
+        <div id="modalBox" class="bg-white rounded-2xl shadow-2xl w-full max-w-md transform transition-all duration-300 scale-95 opacity-0">
+            
+            <div id="modalHeader" class="p-5 border-b-2 rounded-t-2xl flex justify-between items-center">
+                <h3 id="modalTitle" class="text-2xl font-bold"></h3>
+                <div id="modalIcon"></div>
+            </div>
+            
+            <div class="p-6">
+                <p id="modalMessage" class="text-gray-700 text-lg"></p>
+            </div>
+            
+            <div class="px-6 py-4 bg-gray-50 rounded-b-2xl text-right">
+                <button onclick="hideModal()" id="modalCloseButton" class="px-6 py-2.5 text-white font-semibold rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2 transition-transform transform hover:scale-105">
+                    Tutup
+                </button>
             </div>
         </div>
     </div>
@@ -392,6 +428,59 @@
             `;
         }
 
+        // Fungsi untuk menampilkan modal
+        function showModal(type, message) {
+            const modal = document.getElementById('notificationModal');
+            const modalBox = document.getElementById('modalBox');
+            const modalHeader = document.getElementById('modalHeader');
+            const modalTitle = document.getElementById('modalTitle');
+            const modalMessage = document.getElementById('modalMessage');
+            const modalCloseButton = document.getElementById('modalCloseButton');
+            const modalIcon = document.getElementById('modalIcon');
+
+            // Reset style setiap kali modal dipanggil
+            modalHeader.className = 'p-5 border-b-2 rounded-t-2xl flex justify-between items-center';
+            modalCloseButton.className = 'px-6 py-2.5 text-white font-semibold rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2 transition-transform transform hover:scale-105';
+            modalTitle.className = 'text-2xl font-bold';
+
+            modalMessage.textContent = message;
+
+            if (type === 'success') {
+                modalTitle.textContent = 'Sukses!';
+                modalHeader.classList.add('bg-green-100', 'border-green-300');
+                modalTitle.classList.add('text-green-800');
+                modalCloseButton.classList.add('bg-green-600', 'hover:bg-green-700', 'focus:ring-green-500');
+                modalIcon.innerHTML = `<svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>`;
+            } else { // 'error'
+                modalTitle.textContent = 'Gagal!';
+                modalHeader.classList.add('bg-red-100', 'border-red-300');
+                modalTitle.classList.add('text-red-800');
+                modalCloseButton.classList.add('bg-red-600', 'hover:bg-red-700', 'focus:ring-red-500');
+                modalIcon.innerHTML = `<svg class="w-8 h-8 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>`;
+            }
+
+            modal.classList.remove('hidden');
+            // Memicu animasi fade-in dan scale-up
+            setTimeout(() => {
+                modal.classList.add('opacity-100');
+                modalBox.classList.remove('scale-95', 'opacity-0');
+            }, 10);
+        }
+
+        // Fungsi untuk menyembunyikan modal
+        function hideModal() {
+            const modal = document.getElementById('notificationModal');
+            const modalBox = document.getElementById('modalBox');
+            
+            // Memicu animasi fade-out dan scale-down
+            modalBox.classList.add('scale-95', 'opacity-0');
+            modal.classList.remove('opacity-100');
+            
+            setTimeout(() => {
+                modal.classList.add('hidden');
+            }, 300); // Durasi harus sama dengan transisi di CSS
+        }
+
         function sendToGoogleSheets(data) {
             const scriptURL = 'https://script.google.com/macros/s/AKfycbxLV5zxRy-0HvIwulxKZ3RXYbPpg_HXncUMCH_jubAcQOBqlCaP-iYyWHFh3nZL_pxD-A/exec'; // Pastikan URL ini yang terbaru
             const finishButton = document.querySelector('#finishButtonContainer button');
@@ -409,17 +498,16 @@
 
             fetch(scriptURL, { method: 'POST', body: formData })
                 .then(response => {
-                    // === INI BAGIAN BARUNYA ===
-                    // Tampilkan pop-up sukses jika berhasil
-                    alert('Sukses! Jawaban Anda telah berhasil disimpan.');
+                    // Tampilkan MODAL sukses jika berhasil
+                    showModal('success', 'Jawaban Anda telah berhasil direkam. Terima kasih!');
                     console.log('Success!', response);
                     // Kembali aktifkan tombol
                     finishButton.textContent = 'Selesai & Kirim Jawaban';
                     finishButton.disabled = false;
                 })
                 .catch(error => {
-                    // Tampilkan pop-up error jika gagal
-                    alert('Gagal menyimpan data. Silakan coba lagi atau hubungi fasilitator.');
+                    // Tampilkan MODAL error jika gagal
+                    showModal('error', 'Gagal menyimpan data. Silakan periksa koneksi internet Anda atau hubungi fasilitator.');
                     console.error('Error!', error.message);
                     // Kembali aktifkan tombol
                     finishButton.textContent = 'Selesai & Kirim Jawaban';
