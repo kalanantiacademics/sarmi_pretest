@@ -147,6 +147,8 @@
     <script>
         let timeLeft = 30 * 60; // 30 menit
         let timerInterval;
+        // Variabel untuk menyimpan data peserta dengan aman
+        let participantName, participantSchool, participantClass;
 
         const questions = [
             {
@@ -246,6 +248,12 @@
                 return;
             }
 
+            // === PERBAIKAN 1: Simpan data ke variabel global ===
+            participantName = nama;
+            participantSchool = sekolah;
+            participantClass = kelas;
+            // ===================================================
+
             document.getElementById('identityForm').classList.add('hidden');
             document.getElementById('testInfo').classList.remove('hidden');
             document.getElementById('testQuestions').classList.remove('hidden');
@@ -284,7 +292,6 @@
             let firstUnansweredElement = null;
             let questionCounter = 0;
 
-            // Remove previous warnings
             document.querySelectorAll('.question-unanswered').forEach(el => {
                 el.classList.remove('question-unanswered');
             });
@@ -303,12 +310,11 @@
                             firstUnansweredElement = questionContainer;
                         }
 
-                        // Add event listener to remove the warning when an answer is selected
                         const radioButtons = document.querySelectorAll(`input[name="jawaban${questionCounter}"]`);
                         radioButtons.forEach(radio => {
                             radio.addEventListener('change', () => {
                                 questionContainer.classList.remove('question-unanswered');
-                            }, { once: true }); // Listener is removed after being called once
+                            }, { once: true });
                         });
                     }
                 });
@@ -319,10 +325,9 @@
                 if (firstUnansweredElement) {
                     firstUnansweredElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
                 }
-                return; // Stop the function if validation fails
+                return;
             }
             // --- VALIDATION LOGIC END ---
-
 
             clearInterval(timerInterval);
 
@@ -346,15 +351,17 @@
             
             showResult(correct, incorrect, totalQuestions);
 
+            // === PERBAIKAN 2: Gunakan data dari variabel global ===
             const dataToSend = {
-                nama: document.getElementById('namaLengkap').value,
-                sekolah: document.getElementById('namaSekolah').value,
-                kelas: document.getElementById('kelasToT').value,
+                nama: participantName,
+                sekolah: participantSchool,
+                kelas: participantClass,
                 benar: correct,
                 salah: incorrect,
                 waktuSelesai: new Date().toLocaleString('id-ID', { timeZone: 'Asia/Jakarta' }),
                 ...answers
             };
+            // =====================================================
             
             sendToGoogleSheets(dataToSend);
         }
@@ -386,7 +393,7 @@
         }
 
         function sendToGoogleSheets(data) {
-            const scriptURL = 'https://script.google.com/macros/s/AKfycbyJIY6mmWcR6R-ZroUL6DOW13gxdseeAkWvvmROf9w6IOfpLBSfPRcCAAib6B3mH2sZfA/exec'; // This is a placeholder, you must replace it
+            const scriptURL = 'https://script.google.com/macros/s/AKfycbyJIY6mmWcR6R-ZroUL6DOW13gxdseeAkWvvmROf9w6IOfpLBSfPRcCAAib6B3mH2sZfA/exec';
             const formData = new FormData();
 
             for (const key in data) {
