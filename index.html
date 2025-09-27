@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pre-Test Pelatihan Koding & AI untuk Guru</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+        .timer-warning {
+            animation: pulse-red 1.5s infinite;
+        }
+        @keyframes pulse-red {
+            0%, 100% { transform: scale(1); box-shadow: 0 0 15px rgba(239, 68, 68, 0.4); }
+            50% { transform: scale(1.05); box-shadow: 0 0 25px rgba(239, 68, 68, 0.7); }
+        }
+        .gradient-bg {
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 50%, #bae6fd 100%);
+        }
+        .card-shadow {
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.1);
+        }
+        .primary-gradient {
+            background: linear-gradient(135deg, #1d4ed8 0%, #3b82f6 100%);
+        }
+        .floating-animation {
+            animation: float 4s ease-in-out infinite;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+        }
+        .option-hover:hover {
+            transform: translateX(5px);
+            border-color: #3b82f6;
+            background-color: #eff6ff;
+        }
+        input[type="radio"]:checked + label {
+            border-color: #2563eb;
+            background-color: #dbeafe;
+            box-shadow: 0 0 0 2px #60a5fa;
+        }
+        input[type="radio"] {
+            display: none;
+        }
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        /* Style for unanswered questions */
+        .question-unanswered {
+            border: 2px solid #ef4444; /* red-500 */
+            box-shadow: 0 0 10px rgba(239, 68, 68, 0.5);
+        }
+    </style>
+</head>
+<body class="gradient-bg min-h-screen">
+    <div class="container mx-auto px-4 py-8 md:py-12 max-w-4xl">
+        <!-- Header -->
+        <div class="text-center mb-12 floating-animation">
+            <div class="inline-block p-6 glass-effect rounded-3xl card-shadow mb-6">
+                 <div class="w-20 h-20 primary-gradient rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
+                    <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
+                    </svg>
+                </div>
+                <h1 class="text-4xl font-extrabold bg-gradient-to-r from-blue-800 to-blue-500 bg-clip-text text-transparent mb-2">Pre-Test Pelatihan</h1>
+                <h2 class="text-xl text-gray-700 font-semibold">Koding Interaktif & Pemanfaatan AI</h2>
+                <p class="text-gray-600 mt-1">Untuk Guru Peserta Pelatihan Kabupaten Sarmi</p>
+            </div>
+        </div>
+
+        <!-- Form Identitas -->
+        <div id="identityForm" class="glass-effect rounded-3xl card-shadow p-8 md:p-10 mb-8">
+            <h3 class="text-2xl font-bold text-blue-800 mb-6 text-center">Lengkapi Data Peserta</h3>
+            <div class="space-y-6">
+                <div>
+                    <label for="namaLengkap" class="block text-sm font-semibold text-blue-900 mb-2">Nama Lengkap</label>
+                    <input type="text" id="namaLengkap" class="w-full px-5 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-300" placeholder="Masukkan nama lengkap Anda">
+                </div>
+                <div>
+                    <label for="namaSekolah" class="block text-sm font-semibold text-blue-900 mb-2">Nama Sekolah</label>
+                    <input type="text" id="namaSekolah" class="w-full px-5 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-300" placeholder="Masukkan nama sekolah Anda">
+                </div>
+                <div>
+                    <label for="kelasToT" class="block text-sm font-semibold text-blue-900 mb-2">Kelas ToT</for=>
+                    <input type="text" id="kelasToT" class="w-full px-5 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-300" placeholder="Masukkan kelas ToT Anda (Contoh: Kelas A)">
+                </div>
+                <button onclick="startTest()" class="w-full primary-gradient hover:shadow-xl text-white font-bold py-4 px-8 rounded-xl transition-all duration-300 transform hover:scale-105 mt-8 text-lg">
+                    Siap Mulai Test
+                </button>
+            </div>
+        </div>
+
+        <!-- Timer dan Info Test -->
+        <div id="testInfo" class="hidden sticky top-4 z-10 glass-effect rounded-3xl card-shadow p-4 md:p-6 mb-8">
+            <div class="flex justify-between items-center">
+                <div>
+                    <h3 class="text-lg md:text-xl font-bold text-blue-800">Pre-Test Berlangsung</h3>
+                    <p class="text-sm text-gray-600 font-medium">Durasi: 30 menit</p>
+                </div>
+                <div class="text-center">
+                    <div class="text-xs font-semibold text-blue-900 mb-1">Sisa Waktu</div>
+                    <div id="timer" class="text-2xl md:text-3xl font-bold text-white primary-gradient px-4 py-2 rounded-xl shadow-lg">
+                        30:00
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Soal Test -->
+        <div id="testQuestions" class="hidden glass-effect rounded-3xl card-shadow p-8 md:p-10 space-y-10">
+            <!-- Questions will be dynamically inserted here -->
+        </div>
+        
+        <div id="finishButtonContainer" class="hidden text-center mt-10">
+             <button onclick="finishTest()" class="bg-gradient-to-r from-green-500 to-emerald-600 hover:shadow-xl text-white font-bold py-4 px-12 rounded-xl transition-all duration-300 transform hover:scale-105 text-lg">
+                Selesai & Kirim Jawaban
+            </button>
+        </div>
+
+
+        <!-- Hasil Test -->
+        <div id="testResult" class="hidden glass-effect rounded-3xl card-shadow p-10 text-center">
+            <div class="mb-8">
+                <div class="w-24 h-24 bg-gradient-to-r from-green-500 to-emerald-600 rounded-full flex items-center justify-center mx-auto mb-6 floating-animation shadow-xl">
+                    <svg class="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                </div>
+                <h3 class="text-3xl font-bold bg-gradient-to-r from-blue-800 to-blue-600 bg-clip-text text-transparent mb-4">Test Selesai!</h3>
+                <p class="text-gray-700 text-lg font-medium">Terima kasih telah mengikuti pre-test.<br>Jawaban Anda telah berhasil direkam.</p>
+            </div>
+            <div id="resultSummary" class="bg-blue-50 p-8 rounded-2xl border border-blue-200">
+                <!-- Hasil akan ditampilkan di sini -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let timeLeft = 30 * 60; // 30 menit
+        let timerInterval;
+
+        const questions = [
+            {
+                section: 'Sesi Pembuka & Fondasi Digital (Pertemuan 1)',
+                items: [
+                    { q: "Seorang guru ingin mengajarkan proses terjadinya hujan kepada siswa. Ia membagi penjelasan menjadi tiga tahap: evaporasi, kondensasi, dan presipitasi. Pendekatan yang digunakan guru tersebut adalah contoh dari pilar Berpikir Komputasional, yaitu...", o: ['Algoritma', 'Dekomposisi', 'Abstraksi'], a: 'B' },
+                    { q: "Manakah dari teknologi berikut yang merupakan contoh penerapan Kecerdasan Artifisial (AI) dalam kehidupan sehari-hari?", o: ['Mesin fotokopi yang menyalin dokumen.', 'Aplikasi musik yang membuat playlist lagu sesuai selera Anda secara otomatis.', 'Proyektor yang menampilkan gambar dari laptop ke layar.'], a: 'B' }
+                ]
+            },
+            {
+                section: 'Blok 1: Koding dengan Scratch (Pertemuan 2-4)',
+                items: [
+                    { q: "Area utama tempat karakter (Sprite) bergerak dan berinteraksi dalam tampilan proyek Scratch disebut...", o: ['Backdrop', 'Script Area', 'Stage (Panggung)'], a: 'C' },
+                    { q: "Untuk membuat sebuah karakter kucing berjalan ke kanan sejauh 10 langkah di Scratch, blok perintah manakah yang paling tepat digunakan?", o: ['turn right (15) degrees', 'move (10) steps', 'go to x:(10) y:(0)'], a: 'B' },
+                    { q: 'Jika Anda ingin sebuah karakter mengucapkan "Halo!" selama 2 detik, blok perintah manakah yang akan Anda pilih dari kategori Looks?', o: ['say "Halo!" for (2) secs', 'think "Halo!" for (2) secs', 'switch costume to [costume2]'], a: 'A' },
+                    { q: "Perintah yang berfungsi sebagai pemicu untuk memulai seluruh rangkaian program saat bendera hijau diklik adalah...", o: ['when this sprite clicked', 'when backdrop switches to [backdrop1]', 'when green flag clicked'], a: 'C' },
+                    { q: "Untuk membuat sebuah aksi (misalnya, musik) berulang terus-menerus tanpa henti, blok kontrol yang paling efisien untuk digunakan adalah...", o: ['repeat (10)', 'forever', 'wait (1) secs'], a: 'B' },
+                    { q: "Blok perintah if <...> then ... digunakan untuk...", o: ['Menjalankan sebuah aksi hanya jika sebuah kondisi tertentu terpenuhi.', 'Mengulang sebuah aksi sebanyak jumlah yang ditentukan.', 'Memberhentikan semua skrip yang sedang berjalan.'], a: 'A' },
+                    { q: "Seorang guru membuat kuis di Scratch. Setiap kali siswa menjawab benar, skornya bertambah 5. Untuk menyimpan nilai skor yang bisa berubah-ubah ini, fitur yang paling tepat digunakan adalah...", o: ['Broadcast', 'Variable', 'Custom Block'], a: 'B' },
+                    { q: "Blok dari kategori manakah yang digunakan untuk mendeteksi apakah mouse sedang ditekan atau sebuah karakter menyentuh karakter lain?", o: ['Motion', 'Sensing', 'Sound'], a: 'B' },
+                    { q: "Dalam merancang sebuah kuis pilihan ganda di Scratch, logika apa yang paling mendasar untuk memeriksa jawaban siswa?", o: ['Jika jawaban siswa = kunci jawaban, maka skor bertambah.', 'Selalu tambahkan skor setiap kali siswa menjawab.', 'Ulangi pertanyaan sebanyak 10 kali.'], a: 'A' }
+                ]
+            },
+            {
+                section: 'Blok 2: Pemanfaatan AI (Pertemuan 5-7)',
+                items: [
+                    { q: "Istilah untuk seni dan ilmu merancang perintah (input) yang efektif agar AI dapat menghasilkan output yang paling sesuai dan akurat disebut...", o: ['Algoritma AI', 'Machine Learning', 'Prompt Engineering'], a: 'C' },
+                    { q: 'Perhatikan dua perintah berikut yang diberikan kepada AI:\n1. "Buat soal."\n2. "Buatkan 5 soal pilihan ganda untuk siswa kelas 4 SD tentang siklus air, lengkap dengan kunci jawaban."\nMengapa perintah kedua lebih baik daripada yang pertama?', o: ['Karena lebih pendek dan ringkas.', 'Karena menggunakan bahasa yang lebih formal.', 'Karena memberikan konteks, format, dan batasan yang jelas.'], a: 'C' },
+                    { q: "Manakah komponen yang kurang penting saat menyusun sebuah prompt yang baik?", o: ['Konteks (Untuk siapa? Tentang apa?)', 'Tugas (AI harus melakukan apa?)', 'Warna latar belakang aplikasi AI.'], a: 'C' },
+                    { q: "Anda ingin AI membantu membuat ide untuk proyek Scratch. Prompt manakah yang paling efektif?", o: ['"Beri saya ide."', '"Ide Scratch."', '"Berikan 3 ide game edukasi sederhana di Scratch untuk pelajaran IPA tentang rantai makanan."'], a: 'C' },
+                    { q: "Fitur AI pada Canva yang dapat membantu guru menulis atau merangkum teks secara otomatis adalah...", o: ['Magic Eraser', 'Magic Write', 'Animate'], a: 'B' },
+                    { q: "Seorang guru ingin membuat poster tentang pahlawan nasional untuk kelasnya. Fitur Canva AI yang paling tepat untuk membuat gambar ilustrasi pahlawan dari deskripsi teks adalah...", o: ['Text to Image', 'Magic Edit', 'Brand Kit'], a: 'A' },
+                    { q: "Microsoft Copilot atau AI sejenis dapat membantu guru dalam hal administrasi, terutama untuk...", o: ['Memperbaiki proyektor yang rusak.', 'Membuat draf RPP dan rubrik penilaian secara cepat.', 'Menginstal aplikasi di laptop.'], a: 'B' },
+                    { q: 'Seorang guru memberikan perintah kepada Copilot: "Buatkan saya rubrik penilaian untuk proyek presentasi siswa kelas 5." Untuk mendapatkan hasil yang lebih baik, informasi apa yang sebaiknya ditambahkan?', o: ['Nama sekolah dan kepala sekolah.', 'Kriteria penilaian yang diinginkan (misal: isi, cara penyampaian, visual).', 'Jadwal pelajaran guru tersebut.'], a: 'B' },
+                    { q: "Penggunaan utama AI seperti Copilot dalam perencanaan pembelajaran adalah sebagai...", o: ['Pengganti mutlak peran guru dalam mengajar.', 'Alat untuk mencetak dokumen saja.', 'Asisten untuk mempercepat proses ideasi dan penyusunan draf.'], a: 'C' }
+                ]
+            }
+        ];
+        
+        function renderQuestions() {
+            const container = document.getElementById('testQuestions');
+            let questionNumber = 0;
+            let content = `
+                <div class="bg-blue-100 border-l-4 border-blue-500 text-blue-800 p-4 rounded-r-lg mb-8">
+                    <p class="font-bold">Petunjuk Pengerjaan</p>
+                    <p>Pilihlah satu jawaban yang paling tepat (A, B, atau C). Tes ini bertujuan untuk memetakan pemahaman awal Anda dan tidak akan mempengaruhi penilaian akhir.</p>
+                </div>
+            `;
+
+            questions.forEach(sectionData => {
+                content += `
+                    <div class="pt-4">
+                        <h3 class="text-xl font-bold text-blue-800 border-b-2 border-blue-200 pb-2 mb-6">${sectionData.section}</h3>
+                        <div class="space-y-8">
+                `;
+                sectionData.items.forEach(item => {
+                    questionNumber++;
+                    const optionsHTML = item.o.map((option, index) => {
+                        const optionLetter = String.fromCharCode(65 + index); // A, B, C
+                        return `
+                            <div>
+                                <input type="radio" id="q${questionNumber}_${optionLetter}" name="jawaban${questionNumber}" value="${optionLetter}">
+                                <label for="q${questionNumber}_${optionLetter}" class="flex items-center space-x-4 cursor-pointer option-hover p-4 rounded-xl border-2 border-gray-200 transition-all duration-300">
+                                    <div class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0">
+                                        <span class="text-blue-800 font-bold">${optionLetter}</span>
+                                    </div>
+                                    <span class="text-gray-800 font-medium">${option}</span>
+                                </label>
+                            </div>
+                        `;
+                    }).join('');
+
+                    content += `
+                        <div id="question-container-${questionNumber}" class="bg-white/50 p-6 rounded-2xl shadow-sm transition-all duration-300">
+                            <div class="flex items-start space-x-4">
+                                <div class="w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center flex-shrink-0 mt-1 font-bold">${questionNumber}</div>
+                                <p class="text-gray-800 leading-relaxed text-base whitespace-pre-line">${item.q}</p>
+                            </div>
+                            <div class="mt-6 space-y-3 pl-12">
+                                ${optionsHTML}
+                            </div>
+                        </div>
+                    `;
+                });
+                content += `</div></div>`;
+            });
+            container.innerHTML = content;
+        }
+
+        function startTest() {
+            const nama = document.getElementById('namaLengkap').value.trim();
+            const sekolah = document.getElementById('namaSekolah').value.trim();
+            const kelas = document.getElementById('kelasToT').value.trim();
+
+            if (!nama || !sekolah || !kelas) {
+                alert('Mohon lengkapi semua data terlebih dahulu!');
+                return;
+            }
+
+            document.getElementById('identityForm').classList.add('hidden');
+            document.getElementById('testInfo').classList.remove('hidden');
+            document.getElementById('testQuestions').classList.remove('hidden');
+            document.getElementById('finishButtonContainer').classList.remove('hidden');
+            
+            renderQuestions();
+            startTimer();
+        }
+
+        function startTimer() {
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                updateTimerDisplay();
+
+                if (timeLeft <= 300) { // 5 menit terakhir
+                    document.getElementById('timer').classList.add('timer-warning');
+                }
+
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    alert("Waktu habis! Jawaban Anda akan dikirim secara otomatis.");
+                    finishTest();
+                }
+            }, 1000);
+        }
+
+        function updateTimerDisplay() {
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            document.getElementById('timer').textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+
+        function finishTest() {
+            // --- VALIDATION LOGIC START ---
+            let allAnswered = true;
+            let firstUnansweredElement = null;
+            let questionCounter = 0;
+
+            // Remove previous warnings
+            document.querySelectorAll('.question-unanswered').forEach(el => {
+                el.classList.remove('question-unanswered');
+            });
+
+            questions.forEach(section => {
+                section.items.forEach(item => {
+                    questionCounter++;
+                    const selectedAnswer = document.querySelector(`input[name="jawaban${questionCounter}"]:checked`);
+                    const questionContainer = document.getElementById(`question-container-${questionCounter}`);
+
+                    if (!selectedAnswer) {
+                        allAnswered = false;
+                        questionContainer.classList.add('question-unanswered');
+                        
+                        if (!firstUnansweredElement) {
+                            firstUnansweredElement = questionContainer;
+                        }
+
+                        // Add event listener to remove the warning when an answer is selected
+                        const radioButtons = document.querySelectorAll(`input[name="jawaban${questionCounter}"]`);
+                        radioButtons.forEach(radio => {
+                            radio.addEventListener('change', () => {
+                                questionContainer.classList.remove('question-unanswered');
+                            }, { once: true }); // Listener is removed after being called once
+                        });
+                    }
+                });
+            });
+
+            if (!allAnswered) {
+                alert('Harap jawab semua pertanyaan sebelum menyelesaikan tes. Pertanyaan yang belum dijawab ditandai dengan warna merah.');
+                if (firstUnansweredElement) {
+                    firstUnansweredElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+                return; // Stop the function if validation fails
+            }
+            // --- VALIDATION LOGIC END ---
+
+
+            clearInterval(timerInterval);
+
+            let correct = 0;
+            let questionCounterResult = 0;
+            const answers = {};
+
+            questions.forEach(section => {
+                section.items.forEach(item => {
+                    questionCounterResult++;
+                    const selectedAnswer = document.querySelector(`input[name="jawaban${questionCounterResult}"]:checked`);
+                    answers[`jawaban${questionCounterResult}`] = selectedAnswer ? selectedAnswer.value : '';
+                    if (selectedAnswer && selectedAnswer.value === item.a) {
+                        correct++;
+                    }
+                });
+            });
+            
+            const totalQuestions = questionCounterResult;
+            const incorrect = totalQuestions - correct;
+            
+            showResult(correct, incorrect, totalQuestions);
+
+            const dataToSend = {
+                nama: document.getElementById('namaLengkap').value,
+                sekolah: document.getElementById('namaSekolah').value,
+                kelas: document.getElementById('kelasToT').value,
+                benar: correct,
+                salah: incorrect,
+                waktuSelesai: new Date().toLocaleString('id-ID', { timeZone: 'Asia/Jakarta' }),
+                ...answers
+            };
+            
+            sendToGoogleSheets(dataToSend);
+        }
+
+        function showResult(benar, salah, total) {
+            document.getElementById('testInfo').classList.add('hidden');
+            document.getElementById('testQuestions').classList.add('hidden');
+            document.getElementById('finishButtonContainer').classList.add('hidden');
+            document.getElementById('testResult').classList.remove('hidden');
+
+            const persentase = total > 0 ? Math.round((benar / total) * 100) : 0;
+
+            document.getElementById('resultSummary').innerHTML = `
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
+                    <div class="bg-white rounded-xl p-6 shadow-md">
+                        <div class="text-3xl font-bold text-green-600 mb-2">${benar}</div>
+                        <div class="text-sm font-semibold text-gray-600">Jawaban Benar</div>
+                    </div>
+                    <div class="bg-white rounded-xl p-6 shadow-md">
+                        <div class="text-3xl font-bold text-red-600 mb-2">${salah}</div>
+                        <div class="text-sm font-semibold text-gray-600">Jawaban Salah</div>
+                    </div>
+                    <div class="bg-white rounded-xl p-6 shadow-md">
+                        <div class="text-3xl font-bold text-blue-800 mb-2">${persentase}%</div>
+                        <div class="text-sm font-semibold text-gray-600">Total Skor</div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function sendToGoogleSheets(data) {
+            const scriptURL = 'https://script.google.com/macros/s/AKfycbwYyXW_yIe2xQ3lB-L0sB7y_J4nQzK-W_3X9nQzK0vF/exec'; // This is a placeholder, you must replace it
+            const formData = new FormData();
+
+            for (const key in data) {
+                formData.append(key, data[key]);
+            }
+            formData.append('sheetName', 'Pre-test_result');
+
+            fetch(scriptURL, { method: 'POST', body: formData })
+                .then(response => console.log('Success!', response))
+                .catch(error => {
+                    console.error('Error!', error.message);
+                    alert('Terjadi kesalahan saat menyimpan data. Silakan hubungi fasilitator.');
+                });
+        }
+
+    </script>
+</body>
+</html>
+
